@@ -41,16 +41,14 @@ queue<int> rev(queue<int> q)
     
     while(q.size()>0)
     {
-        int val=q.front();
+        s.push(q.front());
         q.pop();
-        s.push(val);
     }
     
     while(s.size()>0)
     {
-        int val=s.top();
+        ans.push(s.top());
         s.pop();
-        ans.push(val);
     }
     return ans;
 }
