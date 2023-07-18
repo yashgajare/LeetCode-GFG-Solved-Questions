@@ -9,26 +9,20 @@ class Solution {
 		    // Code here
 		    unordered_map<char,int>mp;
 		    queue<int>q;
-		    string s="";
+		    string s ="";
 		    
-		    for(int i=0;i<A.size();i++)
-		    {
+		    for(int i=0;i<A.size();i++){
 		        mp[A[i]]++;
 		        q.push(A[i]);
-		        
-		        while(q.size()>0)
-		        {
-		            if(mp[q.front()]>1)
-		            q.pop();
-		            else
-		            {
+		        while(q.size()>0){
+		            if(mp[q.front()]>1) q.pop();
+		            else{
 		                s.push_back(q.front());
 		                break;
 		            }
 		        }
 		        if(q.size()==0)
 		        s.push_back('#');
-		        
 		    }
 		    return s;
 		}
