@@ -52,23 +52,21 @@ class Solution
     struct node *reverse (struct node *head, int k)
     { 
         // Complete this method
-        node *c=head;
-        node *p=NULL;
-        node *n;
+        node* prev=NULL;
+        node* curr=head;
+        node* forw=NULL;
         int cnt=0;
-        while(c && cnt<k)
-        {
-            n=c->next;
-            c->next=p;
-            p=c;
-            c=n;
+        while(curr!=NULL && cnt<k){
+            forw=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forw;
             cnt++;
         }
-        node * x=p;
-        while(x->next) x=x->next;
-        if(n!=NULL)
-        x->next = reverse(n,k);
-        return p;
+        if(forw!=NULL)
+        head->next=reverse(forw,k);
+        
+        return prev;
     }
 };
 
