@@ -59,23 +59,10 @@ struct Node {
 
 class Solution
 {
-    
-    void inserttail(struct Node* &head, struct Node* &tail, int val){
-        struct Node* newNode = new Node(val);
-        if(head==NULL){
-            head=newNode;
-            tail=newNode;
-        }
-        else{
-            tail->next=newNode;
-            tail=newNode;
-        }
-    }
-    
     struct Node* add(struct Node* first, struct Node* second){
         int carry=0;
-        struct Node* reshead=NULL;
-        struct Node* restail=NULL;
+        struct Node* reshead=new Node(-1);
+        struct Node* restail=reshead;
         while(first!=NULL || second!=NULL || carry!=0){
             int sum=0,val1=0,val2=0;
             if(first!=NULL){
@@ -89,9 +76,11 @@ class Solution
             sum=val1+val2+carry;
             int digit=sum%10;
             carry=sum/10;
-            inserttail(reshead,restail,digit);
+            struct Node* node = new Node(digit);
+            restail->next=node;
+            restail=restail->next;
         }
-        return reshead;
+        return reshead->next;
     }
     
     struct Node* reverse(struct Node* head){
