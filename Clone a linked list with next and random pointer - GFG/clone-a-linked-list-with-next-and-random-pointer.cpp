@@ -38,29 +38,46 @@ class Solution
         //Write your code here
         Node* anshead=NULL;
         Node* anstail=NULL;
-        Node* tmp=head;
+        Node* tmp =head;
         
         while(tmp!=NULL){
             inserttail(anshead,anstail,tmp->data);
             tmp=tmp->next;
         }
         
-        unordered_map<Node*, Node*>mp;
-        Node* original = head;
+        //original 1 2 3 4 5
+        //clone    1 2 3 4 5
+        Node* original=head;
         Node* clone = anshead;
-        tmp=head;
+        
         while(original!=NULL && clone!=NULL){
-            mp[original]=clone;
-            original=original->next;
-            clone=clone->next;
+            Node* next=original->next;
+            original->next=clone;
+            original=next;
+            
+            next=clone->next;
+            clone->next=original;
+            clone=next;
+        }
+        
+        tmp=head;
+        while(tmp!=NULL){
+            if(tmp->next!=NULL){
+                tmp->next->arb = tmp->arb ? tmp->arb->next : tmp->arb;
+            }
+            tmp=tmp->next->next; 
         }
         
         original=head;
         clone=anshead;
-        while(original!=NULL){
-            clone->arb=mp[original->arb];
-            clone=clone->next;
+        
+        while(original!=NULL && clone!=NULL){
+            original->next=clone->next;
             original=original->next;
+            
+            if(original!=NULL)
+            clone->next=original->next;
+            clone=clone->next;
         }
         
         return anshead;
