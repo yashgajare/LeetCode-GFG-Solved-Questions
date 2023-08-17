@@ -85,16 +85,11 @@ struct Node
 long int sumBT(Node* root)
 {
     // Code here
-    long int sum=0;
-    queue<Node*>q;
-    q.push(root);
+    if(root==NULL) return 0;
     
-    while(!q.empty()){
-        Node* frontNode = q.front();
-        q.pop();
-        sum+=frontNode->key;
-        if(frontNode->left) q.push(frontNode->left);
-        if(frontNode->right) q.push(frontNode->right);
-    }
-    return sum;
+    int left = sumBT(root->left);
+    int right = sumBT(root->right);
+    
+    return left+right+root->key;
+    
 }
