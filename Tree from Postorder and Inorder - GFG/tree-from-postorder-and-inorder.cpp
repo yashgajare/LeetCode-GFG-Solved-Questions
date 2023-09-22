@@ -66,25 +66,23 @@ struct Node
 
 //Function to return a tree created from postorder and inoreder traversals.
 
-int findPos(int in[], int ele, int inStart, int inEnd, int n){
-    
-    for(int i=0; i<n; i++){
-        if(in[i]==ele) return i;
+void createMapping(int in[], map<int,int> &nodeToIndex, int n){
+    for(int i=0;i<n;i++){
+        nodeToIndex[in[i]]=i;
     }
-    return -1;
 }
 
-Node* solve(int in[], int post[], int &idx, int inStart, int inEnd, int n){
+Node* solve(int in[], int post[], int &idx, int inStart, int inEnd, int n, map<int,int>&nodeToIndex){
     if(idx < 0 || inStart > inEnd){
         return NULL;
     }
     
     int ele = post[idx--];
     Node* root = new Node(ele);
-    int pos = findPos(in, ele, inStart, inEnd, n);
+    int pos = nodeToIndex[ele];
     
-    root->right = solve(in, post, idx, pos+1, inEnd, n);
-    root->left = solve(in, post, idx, inStart, pos-1, n);
+    root->right = solve(in, post, idx, pos+1, inEnd, n, nodeToIndex);
+    root->left = solve(in, post, idx, inStart, pos-1, n, nodeToIndex);
     
     return root;
 }
@@ -92,6 +90,8 @@ Node* solve(int in[], int post[], int &idx, int inStart, int inEnd, int n){
 Node *buildTree(int in[], int post[], int n) {
     // Your code here
     int postIndex = n-1;
-    Node* ans = solve(in, post, postIndex, 0, n-1, n);
+    map<int,int>nodeToIndex;
+    createMapping(in, nodeToIndex, n);
+    Node* ans = solve(in, post, postIndex, 0, n-1, n, nodeToIndex);
     return ans;
 }
