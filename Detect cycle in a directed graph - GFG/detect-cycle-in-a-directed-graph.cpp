@@ -5,35 +5,35 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-  
-    bool isCyclicDfs(int node, unordered_map<int, bool>&visited, unordered_map<int, bool>&dfsVisited, vector<int> adj[])
-    {
-        visited[node]=true;
-        dfsVisited[node]=true;
-        
-        for(auto it: adj[node]){
-            if(!visited[it]){
-                bool cycleFound = isCyclicDfs(it, visited, dfsVisited, adj);
-                if(cycleFound) return true;
-            }
-            else if(dfsVisited[it]){
-                return true;
-            }
-        }
-        dfsVisited[node]=false;
-        return false;
-    }
-    
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
-
-        unordered_map<int, bool>visited;
-        unordered_map<int, bool>dfsVisited;
+        
+        // find indegree
+        vector<int>indegree(V);
         for(int i=0;i<V;i++){
-            if(!visited[i]){
-                bool ans = isCyclicDfs(i, visited, dfsVisited, adj);
-                if(ans)return true;
+            for(auto j: adj[i]) indegree[j]++;
+        }
+        
+        // inserting nodes in queue having indegree=0
+        queue<int>q;
+        for(int i=0;i<V;i++){
+            if(indegree[i]==0)q.push(i);
+        }
+        
+        // bfs
+        while(!q.empty()){
+            int front=q.front();
+            q.pop();
+            
+            for(auto it: adj[front]){
+                indegree[it]--;
+                if(indegree[it]==0) q.push(it);
             }
+        }
+          
+        //checking indegree of all nodes is zero
+        for(int i=0; i<V; i++){
+            if(indegree[i]!=0) return true;
         }
         return false;
     }
