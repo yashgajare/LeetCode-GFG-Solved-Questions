@@ -9,25 +9,27 @@ using namespace std;
 class Solution {
   public:
     
-    int solve(int n, int dp[]){
+    int solve(int n){
         
-        dp[0]=0;
-        dp[1]=1;
+        int prev1 = 1;
+        int prev2 = 0;
+        int curr=0;
+        
+        if(n==0) return prev2;
         
         for(int i=2;i<=n;i++){
-            dp[i]= (dp[i-1] + dp[i-2])%MOD;
+            curr = (prev1+prev2)%MOD;
+            prev2=prev1;
+            prev1=curr;
         }
         
-        return dp[n];
+        return prev1;
     }
   
     int nthFibonacci(int n){
         // code here
-        int dp[n+1];
-        for(int i=0;i<=n;i++)
-        dp[i]=-1;
         int ans;
-        ans = solve(n, dp);
+        ans = solve(n);
         return ans;
     }
 };
